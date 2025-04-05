@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -28,10 +27,22 @@ export const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           <Link 
-            to="/workouts" 
+            to="/exercise" 
             className="text-base font-medium text-dark hover:text-primary transition-colors"
           >
-            Workouts
+            Exercise
+          </Link>
+          <Link 
+            to="/fitness" 
+            className="text-base font-medium text-dark hover:text-primary transition-colors"
+          >
+            Fitness
+          </Link>
+          <Link 
+            to="/health" 
+            className="text-base font-medium text-dark hover:text-primary transition-colors"
+          >
+            Health
           </Link>
           <Link 
             to="/nutrition" 
@@ -40,23 +51,11 @@ export const Header = () => {
             Nutrition
           </Link>
           <Link 
-            to="/tools" 
-            className="text-base font-medium text-dark hover:text-primary transition-colors"
-          >
-            Tools
-          </Link>
-          <Link 
-            to="/experts" 
-            className="text-base font-medium text-dark hover:text-primary transition-colors"
-          >
-            Experts
-          </Link>
-          <Button 
-            variant="default" 
-            className="bg-primary text-white hover:bg-primary/90"
+            to="/subscribe" 
+            className="bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded-md transition-colors"
           >
             Get Your Free Plan
-          </Button>
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -74,11 +73,27 @@ export const Header = () => {
         <div className="container md:hidden py-4 animate-fade-in">
           <nav className="flex flex-col space-y-4">
             <Link 
-              to="/workouts" 
+              to="/exercise" 
               className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Workouts
+              Exercise
+            </Link>
+            <Separator />
+            <Link 
+              to="/fitness" 
+              className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Fitness
+            </Link>
+            <Separator />
+            <Link 
+              to="/health" 
+              className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Health
             </Link>
             <Separator />
             <Link 
@@ -88,29 +103,13 @@ export const Header = () => {
             >
               Nutrition
             </Link>
-            <Separator />
             <Link 
-              to="/tools" 
-              className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tools
-            </Link>
-            <Separator />
-            <Link 
-              to="/experts" 
-              className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Experts
-            </Link>
-            <Button 
-              variant="default" 
-              className="bg-primary text-white hover:bg-primary/90 w-full mt-4"
+              to="/subscribe" 
+              className="bg-primary text-white hover:bg-primary/90 w-full py-2 px-4 rounded-md mt-4 text-center"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Your Free Plan
-            </Button>
+            </Link>
           </nav>
         </div>
       )}

@@ -1,9 +1,12 @@
-
 // This is a client-side version of the MDX utilities
 // Since we can't access the filesystem directly in the browser,
 // we'll use a different approach to load the MDX content
 
 import { useEffect, useState } from "react";
+import matter from 'gray-matter';
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // Type definitions for our content
 export interface PostFrontmatter {
@@ -24,7 +27,7 @@ export interface Post {
   category: string;
 }
 
-// Mock data for development - in a real Next.js app, these would be loaded from the filesystem
+// Mock posts data
 const mockPosts: Post[] = [
   {
     slug: "greens-powder-guide",
@@ -192,18 +195,33 @@ const mockPosts: Post[] = [
     }
   },
   {
-    slug: "joint-friendly-exercises",
-    category: "exercise",
+    slug: "meal-prep-basics",
+    category: "nutrition",
     frontmatter: {
-      title: "Joint-Friendly Exercises for All Ages and Fitness Levels",
-      description: "Discover low-impact, joint-friendly exercises that provide effective workouts without placing excessive stress on your joints.",
-      date: "2023-05-30",
-      author: "Dr. Robert Lee",
-      authorTitle: "Orthopedic Specialist, MD",
-      authorAvatar: "https://randomuser.me/api/portraits/men/52.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80",
-      category: "Exercise",
-      tags: ["low impact", "joint health", "seniors", "rehabilitation"]
+      title: "Meal Prep Basics: Save Time and Eat Healthier",
+      description: "Learn how to efficiently prepare healthy meals in advance, saving time and making it easier to stick to your nutrition goals throughout the week.",
+      date: "2023-06-05",
+      author: "Maria Gonzalez",
+      authorTitle: "Certified Nutrition Coach",
+      authorAvatar: "https://randomuser.me/api/portraits/women/62.jpg",
+      featuredImage: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      category: "Nutrition",
+      tags: ["meal prep", "healthy eating", "time-saving", "nutrition"]
+    }
+  },
+  {
+    slug: "protein-sources-vegetarians",
+    category: "nutrition",
+    frontmatter: {
+      title: "Complete Guide to Protein Sources for Vegetarians",
+      description: "Discover diverse and nutritious plant-based protein sources that can help vegetarians meet their protein needs for optimal health and fitness.",
+      date: "2023-06-10",
+      author: "Dr. Anita Patel",
+      authorTitle: "Registered Dietitian, PhD",
+      authorAvatar: "https://randomuser.me/api/portraits/women/72.jpg",
+      featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      category: "Nutrition",
+      tags: ["vegetarian", "protein", "plant-based", "diet"]
     }
   }
 ];
@@ -245,34 +263,73 @@ export const getCategories = () => {
 export const usePosts = (category?: string) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     // Simulate fetching delay
     const timer = setTimeout(() => {
-      setPosts(getAllPosts(category));
-      setIsLoading(false);
+      try {
+        const data = getAllPosts(category);
+        setPosts(data);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
     }, 300);
 
     return () => clearTimeout(timer);
   }, [category]);
 
-  return { posts, isLoading };
+  return { posts, isLoading, error };
 };
 
 // Hook to get a single post with loading state
 export const usePost = (category: string, slug: string) => {
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     // Simulate fetching delay
     const timer = setTimeout(() => {
-      setPost(getPostBySlug(category, slug));
-      setIsLoading(false);
+      try {
+        const data = getPostBySlug(category, slug);
+        setPost(data);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
     }, 300);
 
     return () => clearTimeout(timer);
   }, [category, slug]);
 
-  return { post, isLoading };
+  return { post, isLoading, error };
+};
+
+// Hook to get featured posts with loading state
+export const useFeaturedPosts = (count: number = 3) => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Simulate fetching delay
+    const timer = setTimeout(() => {
+      try {
+        const data = getFeaturedPosts(count);
+        setPosts(data);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [count]);
+
+  return { posts, isLoading, error };
 };
