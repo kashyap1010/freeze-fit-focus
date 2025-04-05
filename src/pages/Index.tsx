@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedArticles } from "@/components/home/FeaturedArticles";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   return (
