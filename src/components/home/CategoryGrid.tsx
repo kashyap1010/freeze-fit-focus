@@ -13,25 +13,25 @@ interface CategoryProps {
 
 const categories: CategoryProps[] = [
   {
-    title: "Workouts",
-    description: "Science-backed routines for every fitness level",
-    icon: "💪",
-    link: "/workouts",
-    bgImage: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-  },
-  {
-    title: "Nutrition",
-    description: "Evidence-based diet plans and meal guides",
-    icon: "🥗",
-    link: "/nutrition",
+    title: "Health",
+    description: "Nutrition, immune support, sleep, and wellness",
+    icon: "🍏",
+    link: "/health",
     bgImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
   },
   {
-    title: "Recovery",
-    description: "Optimize rest and boost performance",
-    icon: "🧘",
-    link: "/recovery",
-    bgImage: "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    title: "Fitness",
+    description: "Training methodologies, HIIT, and recovery",
+    icon: "💪",
+    link: "/fitness",
+    bgImage: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+  },
+  {
+    title: "Exercise",
+    description: "Technique, form guides, and workout routines",
+    icon: "🏋️",
+    link: "/exercise",
+    bgImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
   },
 ];
 
@@ -45,7 +45,7 @@ const CategoryCard = ({ category }: { category: CategoryProps }) => {
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
         style={{ backgroundImage: `url(${category.bgImage})` }}
       ></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30"></div>
       <div className="absolute bottom-0 left-0 p-6 z-10 w-full">
         <span className="text-3xl mb-2 block">{category.icon}</span>
         <h3 className="text-xl font-bold text-white mb-1">{category.title}</h3>

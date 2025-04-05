@@ -1,10 +1,12 @@
 
 import React from "react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { Helmet } from "react-helmet-async";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 interface ArticleProps {
   title: string;
@@ -16,7 +18,7 @@ interface ArticleProps {
     avatar: string;
     credentials: string;
   };
-  readTime: string;
+  date: string;
   slug: string;
 }
 
@@ -31,7 +33,7 @@ const articles: ArticleProps[] = [
       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
       credentials: "Nutritionist, PhD",
     },
-    readTime: "8 min read",
+    date: "April 5, 2023",
     slug: "greens-powder-guide",
   },
   {
@@ -44,7 +46,7 @@ const articles: ArticleProps[] = [
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
       credentials: "Immunologist, MD",
     },
-    readTime: "10 min read",
+    date: "April 10, 2023",
     slug: "superfoods-immune-system",
   },
   {
@@ -57,8 +59,21 @@ const articles: ArticleProps[] = [
       avatar: "https://randomuser.me/api/portraits/women/68.jpg",
       credentials: "Clinical Nutritionist, PhD",
     },
-    readTime: "7 min read",
+    date: "April 15, 2023",
     slug: "macronutrients-guide",
+  },
+  {
+    title: "Sleep Optimization: How to Improve Your Rest for Better Health",
+    description: "Discover science-backed strategies to optimize your sleep quality and duration for improved overall health, cognitive function, and recovery.",
+    category: "Health",
+    image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    author: {
+      name: "Dr. James Wilson",
+      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+      credentials: "Sleep Specialist, MD",
+    },
+    date: "April 20, 2023",
+    slug: "sleep-optimization",
   },
 ];
 
@@ -82,7 +97,7 @@ const ArticleCard = ({ article }: { article: ArticleProps }) => {
           </CardTitle>
         </Link>
         <CardDescription className="text-sm text-muted-foreground">
-          {article.readTime}
+          Published on {article.date}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-4 pt-0">
@@ -106,28 +121,57 @@ const ArticleCard = ({ article }: { article: ArticleProps }) => {
   );
 };
 
-export const FeaturedArticles = () => {
+const Health = () => {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Featured Articles</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Science-backed insights to guide your fitness journey
+    <MainLayout>
+      <Helmet>
+        <title>Health Articles | FitFreeze</title>
+        <meta 
+          name="description" 
+          content="Browse our collection of science-backed health articles covering nutrition, sleep, stress management, and more to optimize your wellbeing." 
+        />
+      </Helmet>
+      
+      <section className="py-12 bg-gradient-to-r from-blue-50 to-green-50">
+        <div className="container">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Health Articles</h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-center">
+            Evidence-based insights on nutrition, sleep, immunity, and overall wellbeing
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article, index) => (
-            <ArticleCard key={index} article={article} />
-          ))}
+      </section>
+      
+      <section className="py-16">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.map((article, index) => (
+              <ArticleCard key={index} article={article} />
+            ))}
+          </div>
+          
+          <Pagination className="mt-12">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
-        <div className="mt-10 text-center">
-          <Link to="/health" className="inline-flex items-center text-primary font-medium hover:underline">
-            Browse all health articles
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-    </section>
+      </section>
+    </MainLayout>
   );
 };
+
+export default Health;
