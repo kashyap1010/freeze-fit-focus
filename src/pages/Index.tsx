@@ -1,13 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from "react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { HeroSection } from "@/components/home/HeroSection";
+import { FeaturedArticles } from "@/components/home/FeaturedArticles";
+import { CategoryGrid } from "@/components/home/CategoryGrid";
+import { NewsletterSection } from "@/components/home/NewsletterSection";
+import { Helmet } from "react-helmet";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <MainLayout>
+      <Helmet>
+        <title>FitFreeze - Science-backed Fitness Content & Tools</title>
+        <meta 
+          name="description" 
+          content="Discover science-backed fitness programs, nutrition plans, and workout tools designed by certified experts to help you achieve your health goals." 
+        />
+      </Helmet>
+      <HeroSection />
+      <FeaturedArticles />
+      <CategoryGrid />
+      <NewsletterSection />
+    </MainLayout>
   );
 };
 
