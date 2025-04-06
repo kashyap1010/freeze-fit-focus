@@ -4,13 +4,17 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { Post, PostFrontmatter } from '@/lib/mdx-utils';
 
-// Mock implementation to simulate server-side file reading
-// In a real app, this would access the filesystem
+// Improved implementation to load MDX content
 export async function getMdxContent(category: string, slug: string): Promise<{ content: string; frontmatter: PostFrontmatter } | null> {
   try {
-    // This simulates reading from the filesystem
-    // In production, use actual file reads
-    const response = await fetch(`/content/${category}/${slug}.mdx`);
+    // Try direct path first
+    let response = await fetch(`/content/${slug}.mdx`);
+    
+    // If not found, try with category in path
+    if (!response.ok) {
+      response = await fetch(`/content/${category}/${slug}.mdx`);
+    }
+    
     if (!response.ok) throw new Error('MDX file not found');
     
     const rawContent = await response.text();
@@ -26,20 +30,75 @@ export async function getMdxContent(category: string, slug: string): Promise<{ c
   }
 }
 
+// Function to get all file names from the content directory
+async function getContentFileList(): Promise<string[]> {
+  try {
+    // In a real app, this would be an API call to get the list of MDX files
+    // For this demo, we'll just return a hardcoded list
+    return [
+      'stress-management-techniques.mdx',
+      'healthy-sleep-habits.mdx',
+      'gut-health-guide.mdx',
+      'greens-powder-guide.mdx',
+      'superfoods-immune-system.mdx',
+      'bodyweight-training.mdx',
+      'hiit-workouts.mdx',
+      'joint-friendly-exercises.mdx',
+      'mobility-vs-flexibility.mdx',
+      'macronutrients-guide.mdx',
+      'recovery-strategies.mdx',
+      'sleep-optimization.mdx',
+      'progressive-overload.mdx',
+      'compound-movements-guide.mdx',
+      'heart-rate-zones.mdx'
+    ];
+  } catch (error) {
+    console.error('Error getting content file list:', error);
+    return [];
+  }
+}
+
 export async function getAllPosts(): Promise<Post[]> {
   const categories = ['health', 'fitness', 'exercise', 'nutrition'];
   let allPosts: Post[] = [];
   
-  for (const category of categories) {
+  // Get a list of all MDX files
+  const fileList = await getContentFileList();
+  
+  // Process each file to extract frontmatter
+  for (const filename of fileList) {
     try {
-      // This would be a directory read in a real app
-      const response = await fetch(`/api/content-list?category=${category}`);
-      if (!response.ok) continue;
+      const slug = filename.replace('.mdx', '');
       
-      const posts = await response.json();
-      allPosts = [...allPosts, ...posts];
+      // Try to determine the category from the filename or slug
+      let category = '';
+      for (const cat of categories) {
+        if (slug.includes(cat)) {
+          category = cat;
+          break;
+        }
+      }
+      
+      // If category not found in filename, just assign to the first category
+      if (!category) {
+        category = categories[0];
+      }
+      
+      // Get the MDX content and frontmatter
+      const mdxData = await getMdxContent(category, slug);
+      if (mdxData) {
+        allPosts.push({
+          slug,
+          category,
+          frontmatter: {
+            ...mdxData.frontmatter,
+            // Ensure category is set
+            category: category.charAt(0).toUpperCase() + category.slice(1)
+          }
+        });
+      }
     } catch (error) {
-      console.error(`Error reading ${category} posts:`, error);
+      console.error(`Error processing file ${filename}:`, error);
     }
   }
   
@@ -47,16 +106,10 @@ export async function getAllPosts(): Promise<Post[]> {
 }
 
 export async function getPostsByCategory(category: string): Promise<Post[]> {
-  try {
-    // This would be a directory read in a real app
-    const response = await fetch(`/api/content-list?category=${category}`);
-    if (!response.ok) return [];
-    
-    return await response.json();
-  } catch (error) {
-    console.error(`Error reading ${category} posts:`, error);
-    return [];
-  }
+  const allPosts = await getAllPosts();
+  return allPosts.filter(post => 
+    post.category.toLowerCase() === category.toLowerCase()
+  );
 }
 
 export async function getPostBySlug(category: string, slug: string): Promise<Post | null> {
@@ -76,7 +129,10 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
     return {
       slug,
       category,
-      frontmatter: mdxData.frontmatter,
+      frontmatter: {
+        ...mdxData.frontmatter,
+        category: category.charAt(0).toUpperCase() + category.slice(1)
+      },
       content: mdxData.content,
       mdxSource
     };
@@ -88,102 +144,36 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
 
 // Helper to load all content lists for the app
 export async function setupContentListApi() {
-  // This would be generated from a build script in a real app
-  const contentListsByCategory = {
-    health: [
-      { 
-        slug: 'superfoods-immune-system',
-        frontmatter: {
-          title: "10 Science-Backed Superfoods to Boost Your Immune System",
-          description: "Discover the top 10 scientifically proven superfoods that can strengthen your immune system and help protect your body against illness.",
-          date: "2023-04-10",
-          author: "Dr. Mark Thompson",
-          authorTitle: "Immunologist, MD",
-          authorAvatar: "/images/authors/mark-thompson.jpg",
-          featuredImage: "/images/posts/superfoods.jpg",
-          category: "Health",
-          tags: ["nutrition", "immune system", "superfoods"]
-        },
-        category: 'health'
-      },
-      // Add other health posts here
-    ],
-    fitness: [
-      // Add fitness posts here
-    ],
-    // Add other categories
-  };
-  
-  // Expose this data through API routes
-  window.__CONTENT_LISTS__ = contentListsByCategory;
+  try {
+    const allPosts = await getAllPosts();
+    
+    // Group posts by category
+    const contentListsByCategory: Record<string, Post[]> = {};
+    
+    for (const post of allPosts) {
+      const category = post.category.toLowerCase();
+      if (!contentListsByCategory[category]) {
+        contentListsByCategory[category] = [];
+      }
+      contentListsByCategory[category].push(post);
+    }
+    
+    // Expose this data through API routes
+    window.__CONTENT_LISTS__ = contentListsByCategory;
+    
+    return contentListsByCategory;
+  } catch (error) {
+    console.error('Error setting up content list API:', error);
+    return {};
+  }
 }
 
-// This would be provided by a real API server
+// Mock implementation to simulate API calls
 export async function setupMockApis() {
-  await setupContentListApi();
+  console.log('Setting up mock APIs for content');
   
-  // Mock the /api/content-list endpoint
-  const originalFetch = window.fetch;
-  window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
-    const url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
-    
-    if (url.startsWith('/api/content-list')) {
-      const params = new URL(url, window.location.origin).searchParams;
-      const category = params.get('category');
-      
-      if (category && window.__CONTENT_LISTS__?.[category]) {
-        return new Response(JSON.stringify(window.__CONTENT_LISTS__[category]), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-      
-      return new Response(JSON.stringify([]), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-    
-    if (url.startsWith('/api/post')) {
-      const params = new URL(url, window.location.origin).searchParams;
-      const category = params.get('category');
-      const slug = params.get('slug');
-      
-      if (category && slug && window.__CONTENT_LISTS__?.[category]) {
-        const post = window.__CONTENT_LISTS__[category].find(p => p.slug === slug);
-        if (post) {
-          return new Response(JSON.stringify(post), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-          });
-        }
-      }
-      
-      return new Response(null, { status: 404 });
-    }
-    
-    if (url.startsWith('/api/posts')) {
-      const params = new URL(url, window.location.origin).searchParams;
-      const category = params.get('category');
-      
-      if (category && window.__CONTENT_LISTS__?.[category]) {
-        return new Response(JSON.stringify(window.__CONTENT_LISTS__[category]), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-      
-      // Return all posts
-      const allPosts = Object.values(window.__CONTENT_LISTS__ || {}).flat();
-      return new Response(JSON.stringify(allPosts), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-    
-    // Pass through to the original fetch for other requests
-    return originalFetch(input, init);
-  };
+  // Nothing to do here since we're going to use the mock data directly
+  return true;
 }
 
 // Type definition for the content lists global

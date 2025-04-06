@@ -51,6 +51,12 @@ export const Header = () => {
             Nutrition
           </Link>
           <Link 
+            to="/blogs" 
+            className="text-base font-medium text-dark hover:text-primary transition-colors"
+          >
+            All Blogs
+          </Link>
+          <Link 
             to="/subscribe" 
             className="bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded-md transition-colors"
           >
@@ -102,6 +108,14 @@ export const Header = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Nutrition
+            </Link>
+            <Separator />
+            <Link 
+              to="/blogs" 
+              className="text-base font-medium text-dark hover:text-primary transition-colors p-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              All Blogs
             </Link>
             <Link 
               to="/subscribe" 

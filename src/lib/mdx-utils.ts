@@ -19,244 +19,159 @@ export interface PostFrontmatter {
   featuredImage: string;
   category: string;
   tags: string[];
+  featured?: boolean; // Added featured flag
 }
 
 export interface Post {
   slug: string;
   frontmatter: PostFrontmatter;
   category: string;
+  content?: string;
+  mdxSource?: any;
 }
 
-// Mock posts data
-const mockPosts: Post[] = [
-  {
-    slug: "greens-powder-guide",
-    category: "health",
-    frontmatter: {
-      title: "The Ultimate Guide to Greens Powder: What You Need to Know",
-      description: "Discover everything you need to know about greens powders, their benefits, potential drawbacks, and how to choose the right one for your health needs.",
-      date: "2023-04-05",
-      author: "Dr. Sarah Johnson",
-      authorTitle: "Nutritionist, PhD",
-      authorAvatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Health",
-      tags: ["nutrition", "supplements", "health foods"]
-    }
-  },
-  {
-    slug: "superfoods-immune-system",
-    category: "health",
-    frontmatter: {
-      title: "10 Science-Backed Superfoods to Boost Your Immune System",
-      description: "Discover the top 10 scientifically proven superfoods that can strengthen your immune system and help protect your body against illness.",
-      date: "2023-04-10",
-      author: "Dr. Mark Thompson",
-      authorTitle: "Immunologist, MD",
-      authorAvatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Health",
-      tags: ["nutrition", "immune system", "superfoods"]
-    }
-  },
-  {
-    slug: "macronutrients-guide",
-    category: "health",
-    frontmatter: {
-      title: "Understanding Macronutrients: A Beginner's Guide to Balanced Nutrition",
-      description: "Learn about the three main macronutrients—proteins, carbohydrates, and fats—and how to balance them for optimal health and fitness.",
-      date: "2023-04-15",
-      author: "Dr. Lisa Chen",
-      authorTitle: "Clinical Nutritionist, PhD",
-      authorAvatar: "https://randomuser.me/api/portraits/women/68.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Health",
-      tags: ["nutrition", "macronutrients", "diet"]
-    }
-  },
-  {
-    slug: "sleep-optimization",
-    category: "health",
-    frontmatter: {
-      title: "Sleep Optimization: How to Improve Your Rest for Better Health",
-      description: "Discover science-backed strategies to optimize your sleep quality, improve recovery, and enhance overall health through better sleep habits.",
-      date: "2023-04-20",
-      author: "Dr. James Wilson",
-      authorTitle: "Sleep Specialist, MD",
-      authorAvatar: "https://randomuser.me/api/portraits/men/62.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Health",
-      tags: ["sleep", "recovery", "health"]
-    }
-  },
-  {
-    slug: "hiit-workouts",
-    category: "fitness",
-    frontmatter: {
-      title: "5 Full-Body HIIT Workouts for Maximum Efficiency",
-      description: "Discover five science-backed HIIT workout routines that deliver maximum results in minimal time, perfect for busy individuals looking to improve fitness.",
-      date: "2023-04-25",
-      author: "Alex Rivera",
-      authorTitle: "Certified Strength and Conditioning Specialist",
-      authorAvatar: "https://randomuser.me/api/portraits/women/22.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Fitness",
-      tags: ["workouts", "HIIT", "time-efficient"]
-    }
-  },
-  {
-    slug: "progressive-overload",
-    category: "fitness",
-    frontmatter: {
-      title: "Progressive Overload: The Key to Continuous Strength Gains",
-      description: "Learn how to apply progressive overload principles to your strength training for continuous improvement and optimal muscle development.",
-      date: "2023-05-01",
-      author: "Dr. Michael Reynolds",
-      authorTitle: "Exercise Physiologist, PhD",
-      authorAvatar: "https://randomuser.me/api/portraits/men/42.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
-      category: "Fitness",
-      tags: ["strength training", "muscle growth", "workout progress"]
-    }
-  },
-  {
-    slug: "mobility-vs-flexibility",
-    category: "fitness",
-    frontmatter: {
-      title: "Mobility vs. Flexibility: What's the Difference and Why You Need Both",
-      description: "Understand the crucial differences between mobility and flexibility, and learn why both are essential components of a well-rounded fitness program.",
-      date: "2023-05-05",
-      author: "Dr. Sophia Kim",
-      authorTitle: "Physical Therapist, DPT",
-      authorAvatar: "https://randomuser.me/api/portraits/women/36.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1526&q=80",
-      category: "Fitness",
-      tags: ["mobility", "flexibility", "movement", "joint health"]
-    }
-  },
-  {
-    slug: "recovery-strategies",
-    category: "fitness",
-    frontmatter: {
-      title: "Recovery Strategies: How to Optimize Your Post-Workout Routine",
-      description: "Learn evidence-based recovery techniques to reduce soreness, accelerate healing, and improve performance between training sessions.",
-      date: "2023-05-10",
-      author: "Emma Rodriguez",
-      authorTitle: "Sports Recovery Specialist, MS",
-      authorAvatar: "https://randomuser.me/api/portraits/women/58.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1520&q=80",
-      category: "Fitness",
-      tags: ["recovery", "performance", "muscle soreness", "training"]
-    }
-  },
-  {
-    slug: "compound-movements-guide",
-    category: "exercise",
-    frontmatter: {
-      title: "Perfect Form Guide: Mastering the 5 Essential Compound Movements",
-      description: "Learn proper technique for the five fundamental compound exercises—squats, deadlifts, bench press, overhead press, and rows—for maximum strength and safety.",
-      date: "2023-05-15",
-      author: "Coach David Chen",
-      authorTitle: "Strength Coach, CSCS",
-      authorAvatar: "https://randomuser.me/api/portraits/men/76.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Exercise",
-      tags: ["strength training", "technique", "compound movements"]
-    }
-  },
-  {
-    slug: "bodyweight-training",
-    category: "exercise",
-    frontmatter: {
-      title: "Bodyweight Training: Building Strength Without Equipment",
-      description: "Discover how to build impressive strength, muscle, and conditioning using only your bodyweight with progressive calisthenics techniques.",
-      date: "2023-05-20",
-      author: "Tyler Morgan",
-      authorTitle: "Calisthenics Specialist, NSCA-CPT",
-      authorAvatar: "https://randomuser.me/api/portraits/men/89.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Exercise",
-      tags: ["bodyweight", "calisthenics", "home workout", "no equipment"]
-    }
-  },
-  {
-    slug: "heart-rate-zones",
-    category: "exercise",
-    frontmatter: {
-      title: "The Science of Cardio: Finding Your Optimal Heart Rate Zones",
-      description: "Learn how to calculate and train in the right heart rate zones to maximize cardiovascular benefits and achieve your specific fitness goals.",
-      date: "2023-05-25",
-      author: "Dr. Jessica Martinez",
-      authorTitle: "Cardiovascular Researcher, PhD",
-      authorAvatar: "https://randomuser.me/api/portraits/women/82.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80",
-      category: "Exercise",
-      tags: ["cardio", "heart rate", "endurance", "training zones"]
-    }
-  },
-  {
-    slug: "meal-prep-basics",
-    category: "nutrition",
-    frontmatter: {
-      title: "Meal Prep Basics: Save Time and Eat Healthier",
-      description: "Learn how to efficiently prepare healthy meals in advance, saving time and making it easier to stick to your nutrition goals throughout the week.",
-      date: "2023-06-05",
-      author: "Maria Gonzalez",
-      authorTitle: "Certified Nutrition Coach",
-      authorAvatar: "https://randomuser.me/api/portraits/women/62.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Nutrition",
-      tags: ["meal prep", "healthy eating", "time-saving", "nutrition"]
-    }
-  },
-  {
-    slug: "protein-sources-vegetarians",
-    category: "nutrition",
-    frontmatter: {
-      title: "Complete Guide to Protein Sources for Vegetarians",
-      description: "Discover diverse and nutritious plant-based protein sources that can help vegetarians meet their protein needs for optimal health and fitness.",
-      date: "2023-06-10",
-      author: "Dr. Anita Patel",
-      authorTitle: "Registered Dietitian, PhD",
-      authorAvatar: "https://randomuser.me/api/portraits/women/72.jpg",
-      featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-      category: "Nutrition",
-      tags: ["vegetarian", "protein", "plant-based", "diet"]
-    }
-  }
+// Available MDX files in content directory
+const availableFiles = [
+  'stress-management-techniques',
+  'healthy-sleep-habits',
+  'gut-health-guide',
+  'joint-friendly-exercises',
+  'heart-rate-zones'
 ];
 
-// Function to get all posts
-export const getAllPosts = (category?: string): Post[] => {
-  if (category) {
-    return mockPosts.filter(post => post.category.toLowerCase() === category.toLowerCase());
+const categories = ['health', 'fitness', 'exercise', 'nutrition'];
+
+// Function to load MDX content
+async function fetchMdxContent(slug: string): Promise<{ content: string; data: any } | null> {
+  try {
+    const response = await fetch(`/content/${slug}.mdx`);
+    if (!response.ok) {
+      console.warn(`File not found: /content/${slug}.mdx`);
+      return null;
+    }
+    
+    const rawContent = await response.text();
+    return matter(rawContent);
+  } catch (error) {
+    console.error(`Error fetching MDX for ${slug}:`, error);
+    return null;
   }
-  return mockPosts;
+}
+
+// Function to get all posts
+export const getAllPosts = async (category?: string): Promise<Post[]> => {
+  const posts: Post[] = [];
+  
+  for (const slug of availableFiles) {
+    try {
+      const mdxData = await fetchMdxContent(slug);
+      if (mdxData) {
+        const { content, data } = mdxData;
+        
+        // Determine category from frontmatter or slug
+        let postCategory = data.category?.toLowerCase() || '';
+        if (!postCategory) {
+          // Try to determine from slug
+          for (const cat of categories) {
+            if (slug.includes(cat)) {
+              postCategory = cat;
+              break;
+            }
+          }
+          // Default to first category if not found
+          if (!postCategory) postCategory = categories[0];
+        }
+        
+        // Skip if category filter provided and doesn't match
+        if (category && postCategory.toLowerCase() !== category.toLowerCase()) {
+          continue;
+        }
+        
+        const post: Post = {
+          slug,
+          category: postCategory,
+          frontmatter: {
+            title: data.title || 'Untitled Post',
+            description: data.description || '',
+            date: data.date || new Date().toISOString().split('T')[0],
+            author: data.author || 'Anonymous',
+            authorTitle: data.authorTitle || '',
+            authorAvatar: data.authorAvatar || '/placeholder.svg',
+            featuredImage: data.featuredImage || '/placeholder.svg',
+            category: postCategory.charAt(0).toUpperCase() + postCategory.slice(1),
+            tags: data.tags || [],
+            featured: data.featured || false
+          },
+          content
+        };
+        
+        posts.push(post);
+      }
+    } catch (error) {
+      console.error(`Error processing ${slug}:`, error);
+    }
+  }
+  
+  return posts;
 };
 
 // Function to get a single post by slug and category
-export const getPostBySlug = (category: string, slug: string): Post | undefined => {
-  return mockPosts.find(
-    post => post.slug === slug && post.category.toLowerCase() === category.toLowerCase()
-  );
+export const getPostBySlug = async (category: string, slug: string): Promise<Post | undefined> => {
+  try {
+    const mdxData = await fetchMdxContent(slug);
+    if (!mdxData) return undefined;
+    
+    const { content, data } = mdxData;
+    
+    return {
+      slug,
+      category: category.toLowerCase(),
+      frontmatter: {
+        title: data.title || 'Untitled Post',
+        description: data.description || '',
+        date: data.date || new Date().toISOString().split('T')[0],
+        author: data.author || 'Anonymous',
+        authorTitle: data.authorTitle || '',
+        authorAvatar: data.authorAvatar || '/placeholder.svg',
+        featuredImage: data.featuredImage || '/placeholder.svg',
+        category: category.charAt(0).toUpperCase() + category.slice(1),
+        tags: data.tags || [],
+        featured: data.featured || false
+      },
+      content
+    };
+  } catch (error) {
+    console.error(`Error fetching post ${category}/${slug}:`, error);
+    return undefined;
+  }
 };
 
 // Function to get featured posts
-export const getFeaturedPosts = (count: number = 3): Post[] => {
-  return mockPosts.slice(0, count);
+export const getFeaturedPosts = async (count: number = 3): Promise<Post[]> => {
+  const allPosts = await getAllPosts();
+  // Filter posts with featured: true and limit to count
+  return allPosts
+    .filter(post => post.frontmatter.featured)
+    .slice(0, count);
 };
 
 // Function to get categories with counts
-export const getCategories = () => {
-  const categories = [...new Set(mockPosts.map(post => post.category.toLowerCase()))];
-  return categories.map(category => {
-    const count = mockPosts.filter(post => post.category.toLowerCase() === category).length;
-    return {
-      name: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize
-      count,
-      slug: category
-    };
+export const getCategories = async () => {
+  const allPosts = await getAllPosts();
+  const categoryMap = new Map<string, number>();
+  
+  // Count posts by category
+  allPosts.forEach(post => {
+    const category = post.category.toLowerCase();
+    categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
   });
+  
+  // Format categories
+  return Array.from(categoryMap.entries()).map(([category, count]) => ({
+    name: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize
+    count,
+    slug: category
+  }));
 };
 
 // Hook to get posts with loading state
@@ -266,19 +181,122 @@ export const usePosts = (category?: string) => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    // Simulate fetching delay
-    const timer = setTimeout(() => {
+    const fetchPosts = async () => {
       try {
-        const data = getAllPosts(category);
-        setPosts(data);
+        setIsLoading(true);
+        
+        // Use direct file loading approach
+        const files = availableFiles;
+        const loadedPosts: Post[] = [];
+        
+        for (const slug of files) {
+          try {
+            // Try to fetch the file directly
+            const response = await fetch(`/content/${slug}.mdx`);
+            
+            if (response.ok) {
+              const rawContent = await response.text();
+              
+              // Extract frontmatter
+              const frontmatterMatch = rawContent.match(/---\n([\s\S]*?)\n---/);
+              
+              if (frontmatterMatch && frontmatterMatch[1]) {
+                const frontmatterText = frontmatterMatch[1];
+                const frontmatterLines = frontmatterText.split('\n');
+                
+                // Parse frontmatter manually
+                const frontmatter: Partial<PostFrontmatter> = {};
+                let postCategory = '';
+                
+                frontmatterLines.forEach(line => {
+                  const [key, ...valueParts] = line.split(':');
+                  if (key && valueParts.length) {
+                    const value = valueParts.join(':').trim();
+                    // Remove quotes if present
+                    const cleanValue = value.replace(/^"(.*)"$/, '$1');
+                    
+                    if (key.trim() === 'title') frontmatter.title = cleanValue;
+                    if (key.trim() === 'description') frontmatter.description = cleanValue;
+                    if (key.trim() === 'date') frontmatter.date = cleanValue;
+                    if (key.trim() === 'author') frontmatter.author = cleanValue;
+                    if (key.trim() === 'authorTitle') frontmatter.authorTitle = cleanValue;
+                    if (key.trim() === 'authorAvatar') frontmatter.authorAvatar = cleanValue;
+                    if (key.trim() === 'featuredImage') frontmatter.featuredImage = cleanValue;
+                    if (key.trim() === 'category') {
+                      frontmatter.category = cleanValue;
+                      postCategory = cleanValue.toLowerCase();
+                    }
+                    if (key.trim() === 'featured') frontmatter.featured = cleanValue === 'true';
+                    if (key.trim() === 'tags') {
+                      try {
+                        // Parse tags array
+                        const tagsStr = cleanValue.replace(/[\[\]]/g, '');
+                        frontmatter.tags = tagsStr.split(',').map(tag => tag.trim().replace(/^"(.*)"$/, '$1'));
+                      } catch (e) {
+                        frontmatter.tags = [];
+                      }
+                    }
+                  }
+                });
+                
+                // If no category found in frontmatter, try to determine from slug
+                if (!postCategory) {
+                  for (const cat of categories) {
+                    if (slug.includes(cat)) {
+                      postCategory = cat;
+                      frontmatter.category = cat.charAt(0).toUpperCase() + cat.slice(1);
+                      break;
+                    }
+                  }
+                  
+                  // Default to first category if still not found
+                  if (!postCategory) {
+                    postCategory = categories[0];
+                    frontmatter.category = categories[0].charAt(0).toUpperCase() + categories[0].slice(1);
+                  }
+                }
+                
+                // Skip if category filter provided and doesn't match
+                if (category && postCategory.toLowerCase() !== category.toLowerCase()) {
+                  continue;
+                }
+                
+                // Create post object
+                const post: Post = {
+                  slug,
+                  category: postCategory,
+                  frontmatter: {
+                    title: frontmatter.title || 'Untitled Post',
+                    description: frontmatter.description || '',
+                    date: frontmatter.date || new Date().toISOString().split('T')[0],
+                    author: frontmatter.author || 'Anonymous',
+                    authorTitle: frontmatter.authorTitle || '',
+                    authorAvatar: frontmatter.authorAvatar || '/placeholder.svg',
+                    featuredImage: frontmatter.featuredImage || '/placeholder.svg',
+                    category: frontmatter.category || 'Uncategorized',
+                    tags: frontmatter.tags || [],
+                    featured: frontmatter.featured || false
+                  }
+                };
+                
+                loadedPosts.push(post);
+              }
+            }
+          } catch (e) {
+            console.error(`Error loading ${slug}:`, e);
+          }
+        }
+        
+        setPosts(loadedPosts);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('An error occurred'));
+        console.error("Error fetching posts:", err);
+        setError(err instanceof Error ? err : new Error('Failed to fetch posts'));
       } finally {
         setIsLoading(false);
       }
-    }, 300);
-
-    return () => clearTimeout(timer);
+    };
+    
+    fetchPosts();
   }, [category]);
 
   return { posts, isLoading, error };
@@ -291,19 +309,100 @@ export const usePost = (category: string, slug: string) => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    // Simulate fetching delay
-    const timer = setTimeout(() => {
+    const fetchPost = async () => {
       try {
-        const data = getPostBySlug(category, slug);
-        setPost(data);
+        setIsLoading(true);
+        console.log(`Fetching post: ${category}/${slug}`);
+        
+        // Try to fetch the file directly
+        const response = await fetch(`/content/${slug}.mdx`);
+        
+        if (response.ok) {
+          const rawContent = await response.text();
+          
+          // Extract frontmatter
+          const frontmatterMatch = rawContent.match(/---\n([\s\S]*?)\n---/);
+          
+          if (frontmatterMatch && frontmatterMatch[1]) {
+            const frontmatterText = frontmatterMatch[1];
+            const frontmatterLines = frontmatterText.split('\n');
+            
+            // Parse frontmatter manually
+            const frontmatter: Partial<PostFrontmatter> = {};
+            let postCategory = category.toLowerCase();
+            
+            frontmatterLines.forEach(line => {
+              const [key, ...valueParts] = line.split(':');
+              if (key && valueParts.length) {
+                const value = valueParts.join(':').trim();
+                // Remove quotes if present
+                const cleanValue = value.replace(/^"(.*)"$/, '$1');
+                
+                if (key.trim() === 'title') frontmatter.title = cleanValue;
+                if (key.trim() === 'description') frontmatter.description = cleanValue;
+                if (key.trim() === 'date') frontmatter.date = cleanValue;
+                if (key.trim() === 'author') frontmatter.author = cleanValue;
+                if (key.trim() === 'authorTitle') frontmatter.authorTitle = cleanValue;
+                if (key.trim() === 'authorAvatar') frontmatter.authorAvatar = cleanValue;
+                if (key.trim() === 'featuredImage') frontmatter.featuredImage = cleanValue;
+                if (key.trim() === 'category') {
+                  frontmatter.category = cleanValue;
+                  postCategory = cleanValue.toLowerCase();
+                }
+                if (key.trim() === 'featured') frontmatter.featured = cleanValue === 'true';
+                if (key.trim() === 'tags') {
+                  try {
+                    // Parse tags array
+                    const tagsStr = cleanValue.replace(/[\[\]]/g, '');
+                    frontmatter.tags = tagsStr.split(',').map(tag => tag.trim().replace(/^"(.*)"$/, '$1'));
+                  } catch (e) {
+                    frontmatter.tags = [];
+                  }
+                }
+              }
+            });
+            
+            // Get content part
+            const contentStart = rawContent.indexOf('---', rawContent.indexOf('---') + 3) + 3;
+            const contentText = rawContent.substring(contentStart);
+            
+            // Create post object
+            const loadedPost: Post = {
+              slug,
+              category: postCategory,
+              frontmatter: {
+                title: frontmatter.title || 'Untitled Post',
+                description: frontmatter.description || '',
+                date: frontmatter.date || new Date().toISOString().split('T')[0],
+                author: frontmatter.author || 'Anonymous',
+                authorTitle: frontmatter.authorTitle || '',
+                authorAvatar: frontmatter.authorAvatar || '/placeholder.svg',
+                featuredImage: frontmatter.featuredImage || '/placeholder.svg',
+                category: frontmatter.category || category.charAt(0).toUpperCase() + category.slice(1),
+                tags: frontmatter.tags || [],
+                featured: frontmatter.featured || false
+              },
+              content: contentText
+            };
+            
+            console.log(`Successfully loaded post: ${category}/${slug}`);
+            setPost(loadedPost);
+          } else {
+            throw new Error(`Invalid frontmatter format in ${slug}.mdx`);
+          }
+        } else {
+          console.warn(`Post file not found: ${slug}.mdx`);
+          throw new Error(`Post not found: ${category}/${slug}`);
+        }
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('An error occurred'));
+        console.error("Error loading post:", err);
+        setError(err instanceof Error ? err : new Error('Post not found'));
       } finally {
         setIsLoading(false);
       }
-    }, 300);
+    };
 
-    return () => clearTimeout(timer);
+    fetchPost();
   }, [category, slug]);
 
   return { post, isLoading, error };
@@ -311,25 +410,24 @@ export const usePost = (category: string, slug: string) => {
 
 // Hook to get featured posts with loading state
 export const useFeaturedPosts = (count: number = 3) => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const { posts, isLoading, error } = usePosts();
+  const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    // Simulate fetching delay
-    const timer = setTimeout(() => {
-      try {
-        const data = getFeaturedPosts(count);
-        setPosts(data);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('An error occurred'));
-      } finally {
-        setIsLoading(false);
-      }
-    }, 300);
+    if (!isLoading && posts.length > 0) {
+      // Filter posts that have featured: true
+      const featured = posts.filter(post => post.frontmatter.featured);
+      
+      // If none are explicitly featured, take the most recent posts
+      const results = featured.length > 0 
+        ? featured.slice(0, count)
+        : posts
+            .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
+            .slice(0, count);
+      
+      setFeaturedPosts(results);
+    }
+  }, [posts, isLoading, count]);
 
-    return () => clearTimeout(timer);
-  }, [count]);
-
-  return { posts, isLoading, error };
+  return { posts: featuredPosts, isLoading, error };
 };

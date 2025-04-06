@@ -16,22 +16,22 @@ const variantStyles: Record<InfoBoxVariant, { bgColor: string; borderColor: stri
   info: { 
     bgColor: "bg-primary/10", 
     borderColor: "border-primary", 
-    icon: <Info className="h-5 w-5 text-primary" /> 
+    icon: <Info className="h-5 w-5 text-primary font-bold" /> 
   },
   success: { 
     bgColor: "bg-secondary/10", 
     borderColor: "border-secondary", 
-    icon: <Check className="h-5 w-5 text-secondary" /> 
+    icon: <Check className="h-5 w-5 text-secondary font-bold" /> 
   },
   warning: { 
     bgColor: "bg-amber-500/10", 
     borderColor: "border-amber-500", 
-    icon: <AlertTriangle className="h-5 w-5 text-amber-500" /> 
+    icon: <AlertTriangle className="h-5 w-5 text-amber-500 font-bold" /> 
   },
   error: { 
     bgColor: "bg-destructive/10", 
     borderColor: "border-destructive", 
-    icon: <AlertCircle className="h-5 w-5 text-destructive" /> 
+    icon: <AlertCircle className="h-5 w-5 text-destructive font-bold" /> 
   },
 };
 
@@ -56,7 +56,7 @@ export function InfoBox({
         <div className="mt-0.5 mr-3">{icon}</div>
         <div className="flex-1">
           {title && (
-            <h4 className="font-medium text-base mb-2">
+            <h4 className="text-xl mb-2 font-bold">
               {title}
             </h4>
           )}
