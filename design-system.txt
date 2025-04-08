@@ -1,0 +1,236 @@
+# IFSC Blog Design System Documentation
+
+## Typography
+
+### Font Families
+- Primary Font: 'Inter', sans-serif
+  - Used for all UI elements, navigation, headings, and body text
+  - Provides excellent readability across all screen sizes
+  - Weights used: 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
+
+- Monospace Font: 'JetBrains Mono', monospace
+  - Used exclusively for code examples and snippets
+  - Excellent character distinction for code readability
+  - Weights used: 400 (regular)
+
+- Fallback Fonts:
+  - Sans-serif: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  - Monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace
+
+### Font Sizes (in pixels and rem)
+- text-xs: 12px (0.75rem)
+- text-sm: 14px (0.875rem)
+- text-base: 16px (1rem) - Body text default
+- text-lg: 18px (1.125rem)
+- text-xl: 20px (1.25rem)
+- text-2xl: 24px (1.5rem)
+- text-3xl: 30px (1.875rem)
+- text-4xl: 36px (2.25rem)
+- text-5xl: 48px (3rem)
+
+### Headings
+- H1 (Main Title)
+  - Font Size: text-3xl (1.875rem) on mobile, text-4xl (2.25rem) on md screens, text-5xl (3rem) on lg screens
+  - Font Weight: font-bold
+  - Line Height: leading-tight
+  - Letter Spacing: tracking-tighter
+  - Margin: my-6 (1.5rem vertical)
+  - Scroll Margin: scroll-mt-20 (for anchor links)
+
+- H2 (Section Headers)
+  - Font Size: text-2xl (1.5rem)
+  - Font Weight: font-bold
+  - Margin: my-5 (1.25rem vertical)
+  - Scroll Margin: scroll-mt-20
+
+- H3 (Subsections)
+  - Font Size: text-xl (1.25rem)
+  - Font Weight: font-bold
+  - Margin: my-4 (1rem vertical)
+  - Scroll Margin: scroll-mt-20
+
+- H4 (Component Headers)
+  - Font Size: text-lg (1.125rem)
+  - Font Weight: font-bold
+  - Margin: my-3 (0.75rem vertical)
+  - Scroll Margin: scroll-mt-20
+
+### Body Text
+- Paragraphs
+  - Font Size: text-base (1rem / 16px)
+  - Font Weight: font-normal (400)
+  - Line Height: leading-relaxed (1.625)
+  - Margin: my-4 (1rem vertical)
+  - Color: text-gray-700 for regular text
+  - Color: text-muted-foreground for secondary text
+
+- Small Text
+  - Font Size: text-sm (0.875rem / 14px)
+  - Font Weight: font-normal (400)
+  - Line Height: leading-normal (1.5)
+  - Color: text-muted-foreground
+  - Used for metadata, dates, reading time
+
+- Extra Small Text
+  - Font Size: text-xs (0.75rem / 12px)
+  - Font Weight: font-normal to font-medium (400-500)
+  - Line Height: leading-normal (1.5)
+  - Used for badges, tags, and supplementary information
+
+### Special Text Styles
+- Code
+  - Font Family: 'JetBrains Mono', monospace
+  - Inline: bg-gray-100 px-1.5 py-0.5 rounded text-primary-700 text-sm
+  - Blocks: bg-gray-800 text-gray-100 p-4 rounded-lg my-6 overflow-auto text-sm shadow-md
+  - Line Height: leading-normal (1.5)
+
+- Blockquotes
+  - Font Family: 'Inter', sans-serif
+  - Font Style: italic
+  - Border: border-l-4 border-gray-300
+  - Padding: pl-4 py-1
+  - Color: text-gray-700
+  - Margin: my-4
+  - Line Height: leading-relaxed (1.625)
+
+## Spacing System
+
+### Vertical Rhythm
+- Section Spacing: space-y-6 (1.5rem)
+- Component Spacing: my-6 (1.5rem)
+- Content Block Spacing: my-4 (1rem)
+- Tight Spacing: my-2 (0.5rem)
+- Extra Spacing: my-8 (2rem) for major section breaks
+
+### Horizontal Spacing
+- Container Max Width: max-w-4xl
+- Grid Gap: gap-6 (1.5rem)
+- Flex Gap: gap-3 (0.75rem)
+- Content Padding: px-6 (1.5rem)
+
+## Color System
+
+### Primary Colors
+- Primary: #0066cc (customizable via Tailwind theme)
+- Primary Hover: primary/80 (80% opacity)
+- Primary Foreground: white
+
+### Secondary Colors
+- Secondary: #f3f4f6
+- Secondary Hover: secondary/80
+- Secondary Foreground: #1f2937
+
+### Neutral Colors
+- Background: white
+- Foreground: #1f2937
+- Muted: #6b7280
+- Border: #e5e7eb
+
+### Semantic Colors
+- Info: blue-50 to blue-800
+- Warning: amber-50 to amber-800
+- Success: green-50 to green-800
+- Error: red-50 to red-800
+
+## Component Styles
+
+### Cards
+- Background: bg-card (white)
+- Border: border border-gray-200
+- Border Radius: rounded-lg
+- Shadow: shadow-sm
+- Hover: hover:shadow-md transition-shadow
+- Padding: p-4 or p-6 depending on content
+
+### Badges
+- Base: inline-flex items-center rounded-full px-2.5 py-0.5
+- Font: text-xs font-semibold
+- Variants:
+  - Default: bg-primary text-white
+  - Secondary: bg-secondary text-secondary-foreground
+  - Outline: border text-foreground
+
+### Custom Components
+
+#### InfoBox
+- Container: rounded-xl border shadow-sm
+- Background: Varies by type (blue-50, amber-50, green-50)
+- Icon: h-6 w-6 with matching color
+- Title: text-lg font-bold
+- Content: opacity-90 leading-relaxed
+
+#### ComparisonTable
+- Container: overflow-x-auto rounded-xl shadow-lg border
+- Header: bg-gradient-to-r from-gray-50 to-gray-100
+- Cells: px-6 py-4
+- Alternating Rows: bg-white/bg-gray-50
+- Hover: hover:bg-blue-50
+
+#### ProsConsBox
+- Container: rounded-xl border shadow-lg
+- Header: bg-gradient-to-r from-gray-50 to-gray-100
+- Pros Section: bg-gradient-to-br from-green-50
+- Cons Section: bg-gradient-to-br from-red-50
+- Items: flex items-start bg-white p-2 rounded-lg shadow-sm
+
+#### AffiliateLink
+- Container: rounded-xl border-primary-200 shadow-lg
+- Background: bg-gradient-to-br from-primary-50
+- Button: px-6 py-3 bg-primary-600 text-white rounded-lg
+- Disclaimer: bg-gray-50 text-sm text-gray-600
+
+## Responsive Design
+
+### Breakpoints
+- Mobile: Default
+- Tablet: md (768px)
+- Desktop: lg (1024px)
+
+### Grid Layouts
+- Blog Grid: grid-cols-1 md:grid-cols-3
+- Content Layout: grid-cols-1 lg:grid-cols-[1fr_280px]
+- Gap: gap-6 or gap-10 for major sections
+
+### Images
+- Aspect Ratio: aspect-video
+- Object Fit: object-cover object-center
+- Width: w-full
+- Height: h-full or auto
+- Hover: group-hover:scale-105 transition-transform
+
+## Animation & Transitions
+
+### Hover Effects
+- Links: hover:text-primary transition-colors
+- Cards: hover:shadow-md transition-shadow
+- Images: hover:scale-105 transition-transform duration-300
+
+### Loading States
+- Skeleton: animate-pulse bg-gray-100
+- Height: h-64 for card skeletons
+- Border Radius: rounded-lg
+
+## Accessibility
+
+### Focus States
+- focus:outline-none
+- focus:ring-2
+- focus:ring-ring
+- focus:ring-offset-2
+
+### Semantic HTML
+- Use proper heading hierarchy
+- ARIA labels where needed
+- Proper button and link usage
+- Alt text for images
+
+## Best Practices
+
+1. Maintain consistent spacing using the defined system
+2. Use semantic color variables instead of hard-coded values
+3. Ensure text contrast meets WCAG guidelines
+4. Implement responsive designs using mobile-first approach
+5. Keep animations subtle and performance-friendly
+6. Use CSS Grid for layouts and Flexbox for component alignment
+7. Implement proper dark mode support using CSS variables
+8. Maintain consistent vertical rhythm throughout content 

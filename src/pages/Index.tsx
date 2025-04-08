@@ -1,4 +1,3 @@
-
 import React from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -11,11 +10,19 @@ const Index = () => {
   return (
     <MainLayout>
       <Helmet>
-        <title>FitFreeze - Science-backed Fitness Content & Tools</title>
+        <title>FreezeFitFocus - Science-backed Fitness & Health Optimization</title>
         <meta 
           name="description" 
-          content="Discover science-backed fitness programs, nutrition plans, and workout tools designed by certified experts to help you achieve your health goals." 
+          content="Discover evidence-based fitness programs and health optimization strategies designed to enhance your physical and mental performance." 
         />
+        <meta property="og:title" content="FreezeFitFocus - Science-backed Fitness & Health Optimization" />
+        <meta property="og:description" content="Evidence-based fitness programs and health optimization strategies to enhance physical and mental performance." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="/" />
+        <meta property="og:image" content="/images/home-hero.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="keywords" content="fitness science, health optimization, physical performance, mental performance" />
+        <link rel="canonical" href="/" />
       </Helmet>
       <HeroSection />
       <FeaturedArticles />

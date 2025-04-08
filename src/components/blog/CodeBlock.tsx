@@ -1,105 +1,63 @@
 import React, { useState } from 'react';
-import { DocumentDuplicateIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/solid';
 
 interface CodeBlockProps {
-  children: React.ReactNode;
+  children: string;
   language?: string;
-  filename?: string;
   showLineNumbers?: boolean;
 }
 
-export const CodeBlock: React.FC<CodeBlockProps> = ({ 
-  children, 
+export const CodeBlock: React.FC<CodeBlockProps> = ({
+  children,
   language = 'javascript',
-  filename,
-  showLineNumbers = false 
+  showLineNumbers = false
 }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
-    if (typeof children === 'string') {
-      navigator.clipboard.writeText(children).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      });
-    }
-  };
-
-  const displayLanguage = {
-    'javascript': 'JavaScript',
-    'typescript': 'TypeScript',
-    'jsx': 'JSX',
-    'tsx': 'TSX',
-    'html': 'HTML',
-    'css': 'CSS',
-    'json': 'JSON',
-    'bash': 'Bash',
-    'sh': 'Shell',
-    'python': 'Python',
-    'java': 'Java',
-    'c': 'C',
-    'cpp': 'C++',
-  }[language.toLowerCase()] || language;
-
-  // Basic syntax highlighting function
-  const highlightCode = (code: string) => {
-    if (typeof code !== 'string') return code;
-    
-    // Apply syntax highlighting with regex patterns
-    let highlighted = code
-      // Keywords
-      .replace(/\b(const|let|var|function|return|if|else|for|while|class|import|export|from|default|async|await|try|catch|new|this|typeof|instanceof)\b/g, '<span class="text-violet-400">$1</span>')
-      // Strings
-      .replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="text-amber-300">$1</span>')
-      // Comments
-      .replace(/(\/\/.*|\/\*[\s\S]*?\*\/)/g, '<span class="text-gray-500">$1</span>')
-      // Numbers
-      .replace(/\b(\d+)\b/g, '<span class="text-blue-300">$1</span>')
-      // Functions and methods
-      .replace(/(\w+)(?=\s*\()/g, '<span class="text-sky-300">$1</span>')
-      // JSX/HTML tags
-      .replace(/(&lt;\/?[a-zA-Z0-9]+)/g, '<span class="text-blue-400">$1</span>')
-      // Props/attributes in JSX
-      .replace(/([a-zA-Z0-9]+)(?==)/g, '<span class="text-green-300">$1</span>');
-    
-    return <span dangerouslySetInnerHTML={{ __html: highlighted }} />;
+    navigator.clipboard.writeText(children);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="my-8 group">
-      <div className="flex justify-between items-center px-4 py-2 bg-gray-800 text-gray-300 text-sm rounded-t-md border-b border-gray-700">
-        <div className="flex items-center space-x-2">
-          {filename && (
-            <span className="text-gray-300 font-mono text-xs mr-2">{filename}</span>
-          )}
-          <span className="text-blue-300 text-xs font-medium">{displayLanguage}</span>
-        </div>
+    <div className="bg-gray-800 text-gray-100 p-4 rounded-lg my-6 overflow-auto text-sm shadow-md group font-mono font-['JetBrains_Mono',_ui-monospace,_SFMono-Regular,_Menlo,_Monaco,_Consolas,_'Liberation_Mono',_'Courier_New',_monospace]">
+      <div className="flex justify-between items-center mb-3">
+        <div className="text-xs uppercase tracking-wide text-gray-400 font-medium">{language}</div>
         <button
           onClick={copyToClipboard}
-          className="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-700/50"
-          aria-label="Copy code"
+          className="bg-gray-700 hover:bg-gray-600 text-gray-200 p-1.5 rounded text-xs flex items-center transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          aria-label="Copy code to clipboard"
         >
           {copied ? (
-            <CheckIcon className="h-4 w-4 text-green-400" />
+            <>
+              <CheckIcon className="w-4 h-4 mr-1" />
+              <span>Copied!</span>
+            </>
           ) : (
-            <DocumentDuplicateIcon className="h-4 w-4" />
+            <>
+              <DocumentDuplicateIcon className="w-4 h-4 mr-1" />
+              <span>Copy</span>
+            </>
           )}
         </button>
       </div>
-      <div className="relative bg-gray-900 rounded-b-md overflow-auto">
-        <pre className={`p-4 text-sm font-mono text-gray-100 whitespace-pre overflow-x-auto ${showLineNumbers ? 'pl-12' : ''}`}>
-          {showLineNumbers ? (
-            <div className="absolute left-0 top-0 px-2 py-4 text-right border-r border-gray-700/40 h-full bg-gray-800/30 select-none">
-              {(children as string).split('\n').map((_, i) => (
-                <div key={i} className="text-gray-500 select-none text-xs pr-2">{i + 1}</div>
-              ))}
-            </div>
-          ) : null}
-          <code>
-            {typeof children === 'string' ? highlightCode(children) : children}
+
+      <pre className="overflow-x-auto leading-normal">
+        {showLineNumbers ? (
+          <code className="block">
+            {children.split('\n').map((line, index) => (
+              <div key={index} className="table-row">
+                <span className="table-cell text-right pr-4 select-none text-gray-500 w-12">{index + 1}</span>
+                <span className="table-cell">{line}</span>
+              </div>
+            ))}
           </code>
-        </pre>
-      </div>
+        ) : (
+          <code>{children}</code>
+        )}
+      </pre>
     </div>
   );
 }; 

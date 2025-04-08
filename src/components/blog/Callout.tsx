@@ -5,6 +5,7 @@ import {
   LightBulbIcon, 
   SparklesIcon 
 } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 interface CalloutProps {
   children: React.ReactNode;
@@ -20,48 +21,52 @@ export const Callout: React.FC<CalloutProps> = ({
   // Style configurations based on type
   const styles = {
     info: {
-      container: 'bg-blue-50 border border-blue-100',
-      icon: <InformationCircleIcon className="h-5 w-5 text-blue-600" />,
-      text: 'text-blue-900',
+      container: 'bg-blue-50',
+      icon: <InformationCircleIcon className="h-6 w-6 text-blue-600" />,
+      text: 'text-blue-800',
     },
     warning: {
-      container: 'bg-amber-50 border border-amber-100',
-      icon: <ExclamationTriangleIcon className="h-5 w-5 text-amber-600" />,
-      text: 'text-amber-900',
+      container: 'bg-amber-50',
+      icon: <ExclamationTriangleIcon className="h-6 w-6 text-amber-600" />,
+      text: 'text-amber-800',
     },
     tip: {
-      container: 'bg-green-50 border border-green-100',
-      icon: <LightBulbIcon className="h-5 w-5 text-green-600" />,
-      text: 'text-green-900',
+      container: 'bg-green-50',
+      icon: <LightBulbIcon className="h-6 w-6 text-green-600" />,
+      text: 'text-green-800',
     },
     note: {
-      container: 'bg-gray-50 border border-gray-100',
-      icon: <SparklesIcon className="h-5 w-5 text-gray-600" />,
-      text: 'text-gray-900',
+      container: 'bg-gray-100',
+      icon: <SparklesIcon className="h-6 w-6 text-gray-600" />,
+      text: 'text-gray-800',
+    },
+    success: {
+      container: 'bg-green-50',
+      icon: <CheckCircleIcon className="h-6 w-6 text-green-600" />,
+      text: 'text-green-800',
     }
   };
 
-  const headerTitle = title || {
+  const defaultTitle = {
     info: 'Note',
     warning: 'Warning',
     tip: 'Tip',
-    note: 'Note'
-  }[type];
+    note: 'Note',
+    success: 'Success'
+  };
 
   return (
-    <div className={`my-8 rounded-md ${styles[type].container}`}>
-      <div className="px-4 py-3.5">
-        <div className="flex items-start gap-2.5">
+    <div className={`mt-6 mb-0 rounded-xl border shadow-sm ${styles[type].container}`}>
+      <div className="px-6 py-4">
+        <div className="flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5">
             {styles[type].icon}
           </div>
           <div>
-            {headerTitle && (
-              <h5 className={`font-medium text-base mb-1.5 ${styles[type].text}`}>
-                {headerTitle}
-              </h5>
-            )}
-            <div className="text-base text-gray-700 leading-relaxed space-y-2">
+            <h5 className={`text-lg font-bold mb-2 ${styles[type].text}`}>
+              {title || defaultTitle[type]}
+            </h5>
+            <div className="opacity-90 leading-relaxed">
               {children}
             </div>
           </div>

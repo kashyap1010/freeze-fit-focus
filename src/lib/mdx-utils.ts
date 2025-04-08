@@ -31,13 +31,19 @@ export interface Post {
 }
 
 // Available MDX files in content directory
-const availableFiles = [
+export const availableFiles = [
   'stress-management-techniques',
   'healthy-sleep-habits',
   'gut-health-guide',
+  '2024-fitness-blueprint',
+  '2025-fitness-revolution',
   'joint-friendly-exercises',
-  'heart-rate-zones'
-];
+  'heart-rate-zones',
+  'biohacking-guide',
+  'greens-powder-guide',
+  'measles-mmr-vaccine-guide',
+  'world-health-day-2025-global-wellness-trends-and-innovations'
+] as const;
 
 const categories = ['health', 'fitness', 'exercise', 'nutrition'];
 
@@ -90,7 +96,7 @@ export const getAllPosts = async (category?: string): Promise<Post[]> => {
         const post: Post = {
           slug,
           category: postCategory,
-          frontmatter: {
+    frontmatter: {
             title: data.title || 'Untitled Post',
             description: data.description || '',
             date: data.date || new Date().toISOString().split('T')[0],
@@ -168,9 +174,9 @@ export const getCategories = async () => {
   
   // Format categories
   return Array.from(categoryMap.entries()).map(([category, count]) => ({
-    name: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize
-    count,
-    slug: category
+      name: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize
+      count,
+      slug: category
   }));
 };
 
@@ -292,10 +298,10 @@ export const usePosts = (category?: string) => {
         console.error("Error fetching posts:", err);
         setError(err instanceof Error ? err : new Error('Failed to fetch posts'));
       } finally {
-        setIsLoading(false);
+      setIsLoading(false);
       }
     };
-    
+
     fetchPosts();
   }, [category]);
 
@@ -398,7 +404,7 @@ export const usePost = (category: string, slug: string) => {
         console.error("Error loading post:", err);
         setError(err instanceof Error ? err : new Error('Post not found'));
       } finally {
-        setIsLoading(false);
+      setIsLoading(false);
       }
     };
 
